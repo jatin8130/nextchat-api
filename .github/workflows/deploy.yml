@@ -45,7 +45,12 @@ jobs:
           DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}
           ENV_FILE=${{ secrets.ENV_FILE }}
         script: |
+          echo "ENV DEBUG START"
+          echo "$ENV_FILE"
+          echo "ENV DEBUG END"
+
           echo "$ENV_FILE" > .env
+          cat .env
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           docker pull jatin8130/nextchat:latest
           docker stop app || true

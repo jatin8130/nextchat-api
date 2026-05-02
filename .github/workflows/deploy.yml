@@ -46,11 +46,8 @@ jobs:
           ENV_FILE=${{ secrets.ENV_FILE }}
         script: |
           echo "$ENV_FILE" > .env
-          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           docker pull jatin8130/nextchat:latest
           docker stop app || true
           docker rm app || true
-          docker run -d -p 8080:8080 \
-            --name app \
-            --env-file .env \
-            $DOCKER_USERNAME/nextchat:latest
+          docker run -d -p 8080:8080 --name app jatin8130/nextchat:latest
